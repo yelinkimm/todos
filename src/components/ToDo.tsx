@@ -1,9 +1,11 @@
-import { useSetRecoilState } from "recoil";
-import { Categories, IToDo, toDoState } from "../atoms";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { Categories, IToDo, customCategoryState, toDoState } from "../atoms";
 
 function ToDo({ text, category, id }: IToDo) {
+  const customCategories = useRecoilValue(customCategoryState);
+  const categories = [...Object.values(Categories), ...customCategories.map(cate => cate.text)];
   const setToDos = useSetRecoilState(toDoState);
-  const onClick = (newCategory: Categories) => {
+  const onClick = (newCategory: Categories | string) => {
     setToDos((prevToDos) => {
       const targetIndex = prevToDos.findIndex(toDo => toDo.id === id);
       const newToDo = {text, id, category: newCategory};
@@ -14,34 +16,14 @@ function ToDo({ text, category, id }: IToDo) {
 
   return (
     <li>
-      <span>{text}</span>
-      {
-        category !== Categories.DOING && (
-          <button 
-            name={Categories.DOING} 
-            onClick={() => onClick(Categories.DOING)}>
-              Doing
-          </button>
-        )
-      }
-      {
-        category !== Categories.TO_DO && (
-          <button 
-            name={Categories.TO_DO} 
-            onClick={() => onClick(Categories.TO_DO)}>
-              To do
-          </button>
-        )
-      }
-      {
-        category !== Categories.DONE && (
-          <button 
-            name={Categories.DONE} 
-            onClick={() => onClick(Categories.DONE)}>
-              Done
-          </button>
-        )
-      }
+      <span>{text} / {category}</span>
+      {categories.map(categoryItem => {
+        if (category !== categoryItem) {
+          return (
+            <button onClick={() => onClick(categoryItem)}>{categoryItem}</button>
+          );
+        }
+      })}
     </li>
   )
 }

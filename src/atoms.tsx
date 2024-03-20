@@ -9,7 +9,7 @@ export enum Categories {
 export interface IToDo {
   id: number;
   text: string;
-  category: Categories;
+  category: Categories | string;
 }
 export interface ICustomCategory {
   id: number;
