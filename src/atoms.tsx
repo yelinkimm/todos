@@ -11,10 +11,19 @@ export interface IToDo {
   text: string;
   category: Categories;
 }
+export interface ICustomCategory {
+  id: number;
+  text: string;
+}
 
 export const categoryState = atom<Categories>({
   key: "category",
   default: Categories.TO_DO
+});
+
+export const customCategoryState = atom<ICustomCategory[]>({
+  key: "customCategories",
+  default: []
 });
 
 export const toDoState = atom<IToDo[]>({
