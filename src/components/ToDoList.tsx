@@ -16,6 +16,7 @@ function ToDoList() {
   return (
     <div>
       <h1>To Dos</h1>
+      <br />
       <CreateCustomCategory/>
       <hr />
       <select value={category} onInput={onInput}>

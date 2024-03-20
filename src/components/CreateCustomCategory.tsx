@@ -18,8 +18,8 @@ function CreateCustomCategory() {
 
   return (
     <>
-      <button>CreateCustomCategory</button>
-      <br/>
+      <h4>CreateCustomCategory</h4>
+
       <form onSubmit={handleSubmit(handleValid)}>
         <input {...register("customCategory", { required: "Please wrte category name." })} type="text" placeholder="Write category name"/>
         <button>Create</button>

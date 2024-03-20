@@ -16,11 +16,11 @@ function ToDo({ text, category, id }: IToDo) {
 
   return (
     <li>
-      <span>{text} / {category}</span>
+      <span>{text}</span>
       {categories.map(categoryItem => {
         if (category !== categoryItem) {
           return (
-            <button onClick={() => onClick(categoryItem)}>{categoryItem}</button>
+            <button key={categoryItem} onClick={() => onClick(categoryItem)}>{categoryItem.toUpperCase()}</button>
           );
         }
       })}
