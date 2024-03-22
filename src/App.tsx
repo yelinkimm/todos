@@ -24,9 +24,12 @@ const Grid = styled.div`
 
 const Box = styled(motion.div)`
   height: 200px;
-  background-color: rgba(255, 255, 255, 1);
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 40px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Overlay = styled(motion.div)`
@@ -39,13 +42,35 @@ const Overlay = styled(motion.div)`
   background-color: rgba(0,0,0,0.5);
 `;
 
-// const Circle = styled(motion.div)`
-//   background-color: #00a5ff;
-//   width: 100px;
-//   height: 100px;
-//   border-radius: 50px;
-//   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
-// `;
+const Circle = styled(motion.div)`
+  background-color: rgba(255, 255, 255, 1);;
+  width: 60px;
+  height: 60px;
+  border-radius: 50px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+`;
+
+const Switch = styled(motion.button)`
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  border: none;
+  position: absolute;
+  bottom: 100px;
+  font-weight: bold;
+  color: rgb(0, 123, 255);
+`;
+
+const boxVariants = {
+  hover: { scale: 1.1 },
+}
+
+const switchVariants = {
+  tap: {
+    scale: 1.3,
+    color: 'rgb(255, 128, 0)'
+  }
+}
 
 // const BiggerBox = styled.div`
 //   width: 600px;
@@ -82,6 +107,8 @@ const Overlay = styled(motion.div)`
 
 function App() {
   const [id, setId] = useState<null | string>(null);
+  const [clicked, setClicked] = useState(true);
+  const onClickSwitch = () => setClicked(prev => !prev);
 
   // const biggerBoxRef = useRef<HTMLDivElement>(null);
 
@@ -168,8 +195,15 @@ function App() {
   return (
     <Wrapper>
       <Grid>
-        {["1", "2", "3", "4"].map(n => <Box onClick={() => setId(n)} key={n} layoutId={n}/>)}
+        {["1", "2", "3", "4"].map(n => (
+          <Box variants={boxVariants} whileHover="hover" onClick={() => setId(n)} key={n} layoutId={n}>
+            {!clicked && n === "3" ? <Circle layoutId="circle"/>: null }
+            {clicked && n === "2" ? <Circle layoutId="circle"/>: null }
+          </Box>
+        ))}
       </Grid>
+
+      <Switch variants={switchVariants} whileTap="tap" onClick={onClickSwitch}>Switch</Switch>
 
       <AnimatePresence>
         {
