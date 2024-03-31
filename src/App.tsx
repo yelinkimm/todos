@@ -28,15 +28,26 @@ function App() {
   const onDragEnd = (info: DropResult) => {
     const { destination, draggableId, source } = info;
 
+    if (!destination) return;
     if (destination?.droppableId === source.droppableId) { // same board movement
       const droppableId = destination?.droppableId;
 
       setToDos((allBoards) => {
-      const boardCopy = [...allBoards[droppableId]];
-      boardCopy.splice(source.index, 1);
-      boardCopy.splice(destination?.index, 0, draggableId)
-      return {...allBoards, [droppableId]: boardCopy};
-    })
+        const boardCopy = [...allBoards[droppableId]];
+        boardCopy.splice(source.index, 1);
+        boardCopy.splice(destination?.index, 0, draggableId)
+        return {...allBoards, [droppableId]: boardCopy};
+      })
+    } else { // cross board movement
+      setToDos((allBoards) => {
+        const destinationCopy = [...allBoards[destination.droppableId]];
+        const sourceCopy = [...allBoards[source.droppableId]];
+
+        sourceCopy.splice(source.index, 1);
+        destinationCopy.splice(destination?.index, 0, draggableId)
+
+        return {...allBoards, [destination.droppableId]: destinationCopy, [source.droppableId]: sourceCopy};
+      });
     }
   };
 
