@@ -1,8 +1,10 @@
-import { DragDropContext, Droppable, Draggable, DropResult } from "react-beautiful-dnd";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { DragDropContext, Droppable, Draggable, DropResult, DragStart, ResponderProvided } from "react-beautiful-dnd";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { toDoState } from "./atoms";
+import { currentDraggingState, toDoState } from "./atoms";
 import Board from "./components/Board";
+import { useEffect } from "react";
+import DeleteArea from "./components/DeleteBoard";
 
 const Wrapper = styled.div`
   display: flex;
@@ -24,11 +26,26 @@ const Boards = styled.div`
 `;
 
 function App() {
+  const setDragging = useSetRecoilState(currentDraggingState)
   const [toDos, setToDos] = useRecoilState(toDoState);
+
   const onDragEnd = (info: DropResult) => {
-    const { destination, draggableId, source } = info;
+    const { destination, source } = info;
 
     if (!destination) return;
+
+    if (destination.droppableId === "delete") {
+      setToDos((allBoards) => {
+        const boardCopy = [...allBoards[source.droppableId]];
+        boardCopy.splice(source.index, 1);
+        return {...allBoards, [source.droppableId]: boardCopy};
+      });
+
+      setDragging(false);
+
+      return;
+    }
+
     if (destination?.droppableId === source.droppableId) { // same board movement
       setToDos((allBoards) => {
         const boardCopy = [...allBoards[source.droppableId]];
@@ -58,6 +75,7 @@ function App() {
         <Boards>
           {Object.keys(toDos).map((boardId: string) => <Board key={boardId} boardId={boardId} toDos={toDos[boardId]}/>)}
         </Boards>
+        <DeleteArea/>
       </Wrapper>
     </DragDropContext>
   );

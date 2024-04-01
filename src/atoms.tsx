@@ -21,3 +21,8 @@ export const toDoState  = atom<IToDoState>({
   },
   effects_UNSTABLE: [persistAtom]
 })
+
+export const currentDraggingState = atom<boolean>({
+  key: "dragging",
+  default: false
+});
