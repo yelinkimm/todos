@@ -2,13 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { RecoilRoot } from "recoil";
 import { ThemeProvider } from "styled-components";
+import { createRoot } from 'react-dom/client';
 import App from "./App";
-import { darkTheme } from "./theme";
+import { darkTheme, lightTheme } from "./theme";
 
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyle = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -61,7 +63,7 @@ table {
 }
 body {
   font-weight: 300;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: 'Roboto', sans-serif;
   background: ${(props) => props.theme.bgColor};
   color: black;
   line-height: 1.2;
@@ -72,14 +74,25 @@ a {
 }
 `;
 
-ReactDOM.render(
-  <React.StrictMode>
-    <RecoilRoot>
-      <ThemeProvider theme={darkTheme}>
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <RecoilRoot>
+//       <ThemeProvider theme={lightTheme}>
+//         <GlobalStyle />
+//         <App />
+//       </ThemeProvider>
+//     </RecoilRoot>
+//   </React.StrictMode>,
+//   document.getElementById("root")
+// );
+
+const container = document.getElementById("root");
+const root = createRoot(container!);
+root.render(
+      <RecoilRoot>
+      <ThemeProvider theme={lightTheme}>
         <GlobalStyle />
         <App />
       </ThemeProvider>
     </RecoilRoot>
-  </React.StrictMode>,
-  document.getElementById("root")
 );

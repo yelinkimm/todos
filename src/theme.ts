@@ -5,3 +5,9 @@ export const darkTheme: DefaultTheme = {
   boardColor: "#DADFE9",
   cardColor: "white",
 }
+
+export const lightTheme: DefaultTheme = {
+  bgColor: "#ffffff",
+  boardColor: "#F2F2F2",
+  cardColor: "#ffffff",
+}
