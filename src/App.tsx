@@ -6,6 +6,8 @@ import Board from "./components/Board";
 import { useEffect, useState } from "react";
 import DeleteArea from "./components/DeleteBoard";
 import AddNewItem from "./components/AddNewItem";
+import { Button, Tooltip } from "@mui/material";
+import { SquaresPlusIcon } from "@heroicons/react/24/outline";
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,15 +28,22 @@ const Boards = styled.div`
   grid-template-columns: repeat(3, 1fr);
 `;
 
-const AddNewBoardBtn = styled.button`
+const AddNewBoardBtn = styled(Button)`
   display: flex;
   align-items: center;
-  padding: 10px;
-  position: absolute;
+  padding: 10px !important;
+  position: absolute !important;
   top: 10px;
   right: 10px;
-  border-radius: 10px;
+  border-radius: 10px !important;
+  border: none;
+  background-color: white !important;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 10px 20px rgba(0, 0, 0, 0.06);
+  cursor: pointer;
+  > svg {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 function App() {
@@ -98,12 +107,12 @@ function App() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <AddNewBoardBtn onClick={handleNewBoardClick}>
-        <svg data-slot="icon" fill="none" strokeWidth="1.5" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 16.875h3.375m0 0h3.375m-3.375 0V13.5m0 3.375v3.375M6 10.5h2.25a2.25 2.25 0 0 0 2.25-2.25V6a2.25 2.25 0 0 0-2.25-2.25H6A2.25 2.25 0 0 0 3.75 6v2.25A2.25 2.25 0 0 0 6 10.5Zm0 9.75h2.25A2.25 2.25 0 0 0 10.5 18v-2.25a2.25 2.25 0 0 0-2.25-2.25H6a2.25 2.25 0 0 0-2.25 2.25V18A2.25 2.25 0 0 0 6 20.25Zm9.75-9.75H18a2.25 2.25 0 0 0 2.25-2.25V6A2.25 2.25 0 0 0 18 3.75h-2.25A2.25 2.25 0 0 0 13.5 6v2.25a2.25 2.25 0 0 0 2.25 2.25Z"></path>
-        </svg>
-        <span>Create New Board</span>
-      </AddNewBoardBtn>
+      <Tooltip title="Add new board" arrow placement="left">
+        <AddNewBoardBtn onClick={handleNewBoardClick}>
+          <SquaresPlusIcon/>
+        </AddNewBoardBtn>
+
+      </Tooltip>
 
       <Wrapper>
         <Boards>
@@ -118,7 +127,7 @@ function App() {
         <DeleteArea/>
       </Wrapper>
 
-      <AddNewItem/>
+      {open && <AddNewItem/>}
     </DragDropContext>
   );
 }
